@@ -6,9 +6,7 @@ from models import CoordinateModel
 from metrics import compute_med_by_source
 
 
-# -------------------------
-# 1. Фичи (улучшенные)
-# -------------------------
+
 def prepare_ml_data(data):
     X = []
     y = []
@@ -51,18 +49,18 @@ def prepare_ml_data(data):
     return np.array(X), np.array(y)
 
 
-# -------------------------
-# 2. Источник (top/bottom)
-# -------------------------
+
+# 2. (top/bottom)
+
 def extract_sources(data):
     return np.array([0 if d["source"] == "top" else 1 for d in data])
 
 
-# -------------------------
-# 3. MAIN
-# -------------------------
 
-# Загружаем данные
+# 3. MAIN
+
+
+# Загружаем 
 train_data = build_dataset("../data", "train")
 val_data = build_dataset("../data", "val")
 
@@ -70,42 +68,42 @@ print("Train size:", len(train_data))
 print("Val size:", len(val_data))
 
 
-# Фичи
+
 X_train, y_train = prepare_ml_data(train_data)
 X_val, y_val = prepare_ml_data(val_data)
 
-# Источники
+# Источник
 sources_train = extract_sources(train_data)
 sources_val = extract_sources(val_data)
 
 
-# -------------------------
-# 4. Обучение модели
-# -------------------------
+
+# 4. Обучение 
+
 model = CoordinateModel()
 model.fit(X_train, y_train, sources_train)
 
 
-# -------------------------
+
 # 5. Предсказание
-# -------------------------
+
 preds = model.predict(X_val, sources_val)
 
 preds_list = [(p[0], p[1]) for p in preds]
 
 
-# -------------------------
+
 # 6. Метрика
-# -------------------------
+
 med_top, med_bottom = compute_med_by_source(val_data, preds_list)
 
 print("ML MED top:", med_top)
 print("ML MED bottom:", med_bottom)
 
 
-# -------------------------
-# 7. Сохранение модели
-# -------------------------
+
+# 7. Сохранение
+
 with open("model.pkl", "wb") as f:
     pickle.dump(model, f)
 
