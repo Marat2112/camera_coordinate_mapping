@@ -29,7 +29,7 @@ def parse_points(points_list):
 
 def process_pair(pair, source_type):
     """
-    Обрабатывает одну пару кадров
+    Обработка одну пару кадров
     """
     door2_points = parse_points(pair["image1_coordinates"])
     src_points = parse_points(pair["image2_coordinates"])
@@ -59,11 +59,11 @@ def process_pair(pair, source_type):
 
 def load_session(session_path):
     """
-    Загружает одну сессию
+    Загрузка сессии
     """
     session_data = []
 
-    # --- TOP ---
+    #  TOP 
     top_path = os.path.join(session_path, "coords_top.json")
     if os.path.exists(top_path):
         top_json = load_json(top_path)
@@ -71,7 +71,7 @@ def load_session(session_path):
         for pair in top_json:
             session_data.extend(process_pair(pair, "top"))
 
-    # --- BOTTOM ---
+    #  BOTTOM 
     bottom_path = os.path.join(session_path, "coords_bottom.json")
     if os.path.exists(bottom_path):
         bottom_json = load_json(bottom_path)
@@ -123,7 +123,7 @@ def process_pair_to_lists(pair, source_type):
 def load_session_pairs(session_path):
     session_data = []
 
-    # --- TOP ---
+    #  TOP 
     top_path = os.path.join(session_path, "coords_top.json")
     if os.path.exists(top_path):
         top_json = load_json(top_path)
@@ -133,7 +133,7 @@ def load_session_pairs(session_path):
             if item is not None:
                 session_data.append(item)
 
-    # --- BOTTOM ---
+    #  BOTTOM 
     bottom_path = os.path.join(session_path, "coords_bottom.json")
     if os.path.exists(bottom_path):
         bottom_json = load_json(bottom_path)
